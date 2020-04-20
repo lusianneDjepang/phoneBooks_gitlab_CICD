@@ -130,7 +130,7 @@
   docker_container:
     name: "phonebook-app"
     hostname: "phonebook-app"
-    image: "{{ dns_addr_server_gitlab }}/{{ gitlab_container_registry_username }}/{{ phone_books_dest_repo }}/phone_books:{{ phone_books_image_tag }}"
+    # image: "{{ dns_addr_server_gitlab }}/{{ gitlab_container_registry_username }}/{{ phone_books_dest_repo }}/phone_books:{{ phone_books_image_tag }}"
     state: "started"
     build:
       context: .
@@ -139,7 +139,7 @@
       - phonebook-mysql
     restart_policy: "always"
     ports:
-      - "8181:3000"
+      - "8181:8181"
   tags:
     - preprod
     - prod

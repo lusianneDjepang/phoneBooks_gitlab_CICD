@@ -35,14 +35,5 @@
         until: _result2.status == 200
         retries: 15
         delay: 5
-
-      - name: Check webservice application production
-        uri:
-          url: http://{{ ip_addr_prod }}:{{ port_app }}/health
-          method: GET
-        register: _result3
-        until: _result3.status == 200
-        retries: 15
-        delay: 5
       tags:
         - prod

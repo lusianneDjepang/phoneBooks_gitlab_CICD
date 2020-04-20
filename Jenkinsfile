@@ -53,7 +53,7 @@ pipeline {
                }
                stage("Verify ansible playbook syntax") {
                    steps {
-                       sh 'ansible-lint -x 306 install_fake-backend.yml'
+                       sh 'ansible-lint -x 306 install_phone-books.yml'
                        sh 'echo "${GIT_BRANCH}"'
                    }
                }
@@ -64,7 +64,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                    }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "build" --limit build install_fake-backend.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "build" --limit build install_phone-books.yml'
                    }
                }
 
@@ -73,7 +73,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/dev' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "preprod" --limit preprod install_fake-backend.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "preprod" --limit preprod install_phone-books.yml'
                    }
                }
 
@@ -112,7 +112,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/master' }
                    }
                    steps {
-                       sh 'ansible-lint -x 306 install_fake-backend.yml'
+                       sh 'ansible-lint -x 306 install_phone-books.yml'
                        sh 'echo "${GIT_BRANCH}"'
                    }
                }
@@ -121,7 +121,7 @@ pipeline {
                       expression { GIT_BRANCH == 'origin/master' }
                   }
                    steps {
-                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "prod" --limit prod install_fake-backend.yml'
+                       sh 'ansible-playbook  -i hosts --vault-password-file vault.key --private-key id_rsa --tags "prod" --limit prod install_phone-books.yml'
                    }
                }
                stage("Ensure application is deployed in production") {
