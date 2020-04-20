@@ -1,8 +1,8 @@
 ---
-fake_backend_source_repo: "ssh://git@ec2-18-209-44-23.compute-1.amazonaws.com:2222/samiamoura/fake-backend-dev.git"
-fake_backend_source_branch: "master"
-fake_backend_image_tag: "gitlabCICD"
-fake_backend_dest_repo: "fake-backend-cicd"
+phone_books_source_repo: "ssh://git@ec2-18-209-44-23.compute-1.amazonaws.com:2222/samiamoura/fake-backend-dev.git"
+phone_books_source_branch: "master"
+phone_books_image_tag: "gitlabCICD"
+phone_books_dest_repo: "phoneBooks_gitlab_CICD"
 
 gitlab_container_registry_name : "gitlab.samiamoura.com"
 
