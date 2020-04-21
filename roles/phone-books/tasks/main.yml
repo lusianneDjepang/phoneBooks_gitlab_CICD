@@ -1,48 +1,4 @@
 ---
-# This playbook is used to deploy fake-backend application based on Docker
-
-- name: Create certs.d directory to store domain certs login GitLab Container registry
-  file:
-    path: /etc/docker/certs.d
-    state: directory
-    mode: '0755'
-  tags:
-    - build
-    - preprod
-    - prod
-
-- name: Create domain directory to store certs domain file
-  file:
-    path: "/etc/docker/certs.d/{{ dns_addr_server_gitlab }}"
-    state: directory
-    mode: '0755'
-  tags:
-    - build
-    - preprod
-    - prod
-
-- name: Copy ca.crt file with owner and permissions
-  copy:
-    content: "{{ certificate_domaine }}"
-    dest: "/etc/docker/certs.d/{{ dns_addr_server_gitlab }}/ca.crt"
-    owner: root
-  tags:
-    - build
-    - preprod
-    - prod
-
-# build and push builded images
-
-- name: Log into GitLab Container Registry
-  docker_login:
-    registry: "{{ dns_addr_server_gitlab }}"
-    username: "{{ gitlab_container_registry_username }}"
-    password: "{{ gitlab_container_registry_password }}"
-    reauthorize: yes
-  tags:
-    - build
-    - preprod
-    - prod
 
 - name: create project directory
   file:
@@ -52,7 +8,7 @@
     - build
     - preprod
     - prod
-
+    
 - name: copy devops private key file
   copy:
     content: '{{ gitlab_private_key }}'
@@ -80,7 +36,7 @@
 - name: Build image and push it to Docker Hub
   docker_image:
     path: "{{ home }}/application-phoneBooks/crud-application-using-flask-and-mysql"
-    name: "{{ dns_addr_server_gitlab }}/{{ gitlab_container_registry_username }}/{{ phone_books_dest_repo }}/crud-application-using-flask-and-mysql"
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
     push: yes
     tag: "{{ phone_books_image_tag }}"
   tags:
@@ -90,7 +46,7 @@
 - name: Remove image on build host
   docker_image:
     state: absent
-    name: "{{ dns_addr_server_gitlab }}/{{ gitlab_container_registry_username }}/{{ phone_books_dest_repo }}/crud-application-using-flask-and-mysql"
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
     tag: "{{ phone_books_image_tag }}"
   tags:
     - build
