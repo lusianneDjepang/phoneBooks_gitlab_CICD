@@ -1,4 +1,16 @@
 ---
+# This playbook is used to deploy fake-backend application based on Docker
+
+# build and push builded images
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_hub_login }}"
+    email: "{{ docker_hub_email }}"
+    password: "{{ docker_hub_password }}"
+  tags:
+    - build
+
 - name: create project directory
   file:
     path: "{{ home }}/phone-books"
@@ -7,12 +19,12 @@
     - build
     - preprod
     - prod
-    
+
 - name: copy devops private key file
   copy:
-    content: '{{ gitlab_private_key }}'
+    content: '{{ github_private_key }}'
     dest: "{{ home }}/.ssh/id_rsa"
-    owner: admin
+    owner: centos
   tags:
     - build
     - preprod
@@ -85,8 +97,6 @@
   docker_container:
     name: "phonebook-app"
     hostname: "phonebook-app"
-    # image: "{{ dns_addr_server_gitlab }}/{{ gitlab_container_registry_username }}/{{ phone_books_dest_repo }}/phone_books:{{ phone_books_image_tag }}"
-    state: "started"
     build:
       context: .
       dockerfile: Dockerfile-app
@@ -98,3 +108,4 @@
   tags:
     - preprod
     - prod
+
