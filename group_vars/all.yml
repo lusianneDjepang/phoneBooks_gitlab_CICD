@@ -6,7 +6,7 @@ phone_books_dest_repo: "phoneBooks_gitlab_CICD"
 
 gitlab_container_registry_name : "gitlab.samiamoura.com"
 
-home: "/home/centos"
+home: "/home/admin"
 volume_database: "/srv/db-data"
 
 ip_addr_server_gitlab: "18.209.44.23"
