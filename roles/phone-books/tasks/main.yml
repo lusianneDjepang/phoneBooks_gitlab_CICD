@@ -24,7 +24,7 @@
   copy:
     content: '{{ github_private_key }}'
     dest: "{{ home }}/.ssh/id_rsa"
-    owner: centos
+    owner: admin
   tags:
     - build
     - preprod
