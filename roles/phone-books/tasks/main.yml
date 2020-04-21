@@ -1,5 +1,4 @@
 ---
-
 - name: create project directory
   file:
     path: "{{ home }}/phone-books"
