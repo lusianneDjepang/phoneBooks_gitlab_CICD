@@ -5,4 +5,4 @@
 3.81.96.186 ansible_user=admin ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [prod]
-54.166.163.77 ansible_user=admin ansible_ssh_common_args='-o StrictHosKteyChecking=no'
+54.166.163.77 ansible_user=admin ansible_ssh_common_args='-o StrictHostKeyChecking=no'
