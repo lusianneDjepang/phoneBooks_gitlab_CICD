@@ -1,5 +1,5 @@
 ---
-# This playbook is used to deploy fake-backend application based on Docker
+# This playbook is used to deploy phone-books application based on Docker
 
 # build and push builded images
 
