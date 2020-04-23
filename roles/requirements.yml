@@ -3,4 +3,4 @@
 - src: geerlingguy.pip
 
 # Install a role for docker
-- src: geerlingguy.docker
+- src: geerlingguy.docker --ignore-errors
