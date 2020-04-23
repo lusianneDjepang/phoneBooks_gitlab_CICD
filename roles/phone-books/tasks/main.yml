@@ -1,0 +1,111 @@
+---
+# This playbook is used to deploy phone-books application based on Docker
+
+# build and push builded images
+
+- name: Log into DockerHub
+  docker_login:
+    username: "{{ docker_hub_login }}"
+    email: "{{ docker_hub_email }}"
+    password: "{{ docker_hub_password }}"
+  tags:
+    - build
+
+- name: create project directory
+  file:
+    path: "{{ home }}/phone-books"
+    state: directory
+  tags:
+    - build
+    - preprod
+    - prod
+
+- name: copy devops private key file
+  copy:
+    content: '{{ gitlab_private_key }}'
+    dest: "{{ home }}/.ssh/id_rsa"
+    owner: admin
+  tags:
+    - build
+    - preprod
+    - prod
+
+- name: Retrieve phone-books addons source code
+  git:
+    repo: "{{ phone_books_source_repo }}"
+    dest: "{{ home }}/application-phoneBooks"
+    accept_hostkey: yes
+    force: yes
+    recursive: no
+    key_file: "{{ home }}/.ssh/id_rsa"
+    version: "{{ phone_books_source_branch }}"
+  tags:
+    - build
+    - preprod
+    - prod
+
+- name: Build image and push it to Docker Hub
+  docker_image:
+    path: "{{ home }}/application-phoneBooks/crud-application-using-flask-and-mysql"
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
+    push: yes
+    tag: "{{ phone_books_image_tag }}"
+  tags:
+    - build
+
+
+- name: Remove image on build host
+  docker_image:
+    state: absent
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
+    tag: "{{ phone_books_image_tag }}"
+  tags:
+    - build
+
+- name: create volume database
+  file:
+    path: "{{ volume_database }}"
+    state: directory
+  tags:
+    - preprod
+    - prod
+
+# docker network
+- name: Create docker network to interconnect containers
+  docker_network:
+    name: phoneBooks
+  tags:
+    - preprod
+    - prod
+
+# deploy application
+- name: Deploy database
+  docker_container:
+    name: "phonebook-mysql"
+    hostname: "phonebook-mysql"
+    build:
+      context: .
+      dockerfile: Dockerfile-mysql
+    restart_policy: "always"
+  tags:
+    - preprod
+    - prod
+
+# deploy frontend
+
+- name: Deploy frontend
+  docker_container:
+    name: "phonebook-app"
+    hostname: "phonebook-app"
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    depends_on:
+      - phonebook-mysql
+    restart_policy: "always"
+    ports:
+      - "8181:8181"
+  tags:
+    - preprod
+    - prod
+
