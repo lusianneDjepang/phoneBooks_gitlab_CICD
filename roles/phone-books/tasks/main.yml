@@ -31,6 +31,23 @@
     - build
     - preprod
     - prod
+    
+- name: Build image and push it to Docker Hub
+  docker_image:
+    path: "{{ home }}/application-phoneBooks/crud-application-using-flask-and-mysql"
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
+    push: yes
+    tag: "{{ phone_books_image_tag }}"
+  tags:
+    - build
+
+- name: Remove image on build host
+  docker_image:
+    state: absent
+    name: "{{ docker_hub_login }}/crud-application-using-flask-and-mysql"
+    tag: "{{ phone_books_image_tag }}"
+  tags:
+    - build
 
 - name: create volume database
   file:
