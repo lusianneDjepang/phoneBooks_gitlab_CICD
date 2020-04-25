@@ -1,18 +1,18 @@
 ---
-phone_books_source_repo: "ssh://git@ec2-18-209-44-23.compute-1.amazonaws.com:2222/lusianne/crud-application-using-flask-and-mysql_ci.git"
+phone_books_source_repo: "ssh://git@ec2-54.196.132.158.compute-1.amazonaws.com:2222/lusianne/crud-application-using-flask-and-mysql_ci.git"
 phone_books_source_branch: "master"
 phone_books_image_tag: "gitlabCICD"
 phone_books_dest_repo: "phoneBooks_gitlab_CICD"
 
 gitlab_container_registry_name : "gitlab.samiamoura.com"
 
-home: "/home/admin"
+home: "/home/centos"
 volume_database: "/srv/db-data"
 
-ip_addr_server_gitlab: "18.209.44.23"
-dns_addr_server_gitlab: "ec2-18-209-44-23.compute-1.amazonaws.com"
-ip_addr_preprod: "3.81.96.186"
-ip_addr_prod: "54.166.163.77"
+ip_addr_server_gitlab: "54.196.132.158"
+dns_addr_server_gitlab: "ec2-54.196.132.158.compute-1.amazonaws.com"
+ip_addr_preprod: "52.87.181.182"
+ip_addr_prod: "54.164.161.136"
 port_app: "8181"
 
 #secret data vaulted
