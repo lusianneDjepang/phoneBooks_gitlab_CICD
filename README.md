@@ -4,7 +4,7 @@
 ## Description
 
 * This is a complete pipeline CI/CD with Jenkins to deploy a python application in production
-* This infrastructure it's componed of 4 servers (githubserver, SonarServer, build server and production server)
+* This infrastructure it's componed of 3 servers (build server, Preprod server and production server)
 * We use cloudformation, Jenkins, Ansible, Docker, Git and GitHub tools
 * The differents stages are :
 1. Ensure lint syntax of diferents langages (bash, yamel and markdown) is OK
